@@ -2,6 +2,27 @@
 
 GATv2-based prediction of inlet (aortic annulus) and outlet (brachiocephalic artery) clipping planes directly from a segmented aortic surface mesh, for patient-specific TAVI CFD preprocessing. The model predicts each plane's **origin and normal** end-to-end; both are equivariant functions of the mesh geometry, so no plane is hand-built after the fact.
 
+<p align="center">
+  <img src="assets/pipeline_overview.png" alt="AortaClip pipeline overview" width="85%">
+</p>
+
+## Pipeline
+
+```mermaid
+flowchart LR
+    A[CTA scan] --> B[Aorta segmentation]
+    B --> C[Surface mesh<br/>LPS, mm]
+    C --> D[Mesh preprocessing<br/>landmark-free crop]
+    D --> E[Mesh-SLIC<br/>superpixels]
+    E --> F[Graph construction<br/>invariant node & edge features]
+    F --> G[GATv2 backbone<br/>3 layers]
+    G --> H[Inlet head<br/>origin + normal]
+    G --> I[Outlet head<br/>origin + normal]
+    H --> J[Clipping-plane<br/>reconstruction]
+    I --> J
+    J --> K[CFD-ready<br/>vascular mesh]
+```
+
 ## Model (`gnn_model.py`)
 
 `ClipPlaneGATv2`:
@@ -24,6 +45,7 @@ train_final.py        # fixed train/test split (5 held-out patients)
 run_graph.py          # [required, not shown] builds results/graphs/*_slic_mesh.npz
 make_ground_truth.py  # [required, not shown] builds results/ground_truth/*_gt.json
 infer_clip.py         # [required, not shown] clips test meshes with a saved model
+assets/               # figures used in this README
 ```
 
 ## Requirements
@@ -80,6 +102,20 @@ Corrupt annotations are dropped automatically: a patient whose landmark sits > `
 | Batch size | 4 |
 | Heatmap sigma | 10 mm |
 
+## Results
+
+Predicted vs. expert-clipped meshes across the test samples:
+
+<p align="center">
+  <img src="assets/qualitative_comparison.png" alt="Expert vs predicted clipped meshes" width="85%">
+</p>
+
+Predicted clipping shown in anatomical context (segmented mesh, and the predicted clipped region overlaid in blue):
+
+<p align="center">
+  <img src="assets/overlay_comparison.png" alt="Predicted clipping in anatomical context" width="85%">
+</p>
+
 ## Notes
 
 - The LOOCV summary is the stable accuracy estimate; the 5-patient test error (`train_final.py`) is unbiased but noisy (n=5).
@@ -87,4 +123,4 @@ Corrupt annotations are dropped automatically: a patient whose landmark sits > `
 
 ## Acknowledgements
 
-Trained on the Apocrita HPC cluster, Queen Mary University of London.
+Trained on the Apocrita HPC cluster, Queen Mary University of London.on.
