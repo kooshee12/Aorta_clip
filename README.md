@@ -2,10 +2,6 @@
 
 GATv2-based prediction of inlet (aortic annulus) and outlet (brachiocephalic artery) clipping planes directly from a segmented aortic surface mesh, for patient-specific TAVI CFD preprocessing. The model predicts each plane's **origin and normal** end-to-end; both are equivariant functions of the mesh geometry, so no plane is hand-built after the fact.
 
-<p align="center">
-  <img src="assets/pipeline_overview.png" alt="AortaClip pipeline overview" width="85%">
-</p>
-
 ## Pipeline
 
 ```mermaid
@@ -101,20 +97,6 @@ Corrupt annotations are dropped automatically: a patient whose landmark sits > `
 | Weight decay | 1e-4 |
 | Batch size | 4 |
 | Heatmap sigma | 10 mm |
-
-## Results
-
-Predicted vs. expert-clipped meshes across the test samples:
-
-<p align="center">
-  <img src="assets/qualitative_comparison.png" alt="Expert vs predicted clipped meshes" width="85%">
-</p>
-
-Predicted clipping shown in anatomical context (segmented mesh, and the predicted clipped region overlaid in blue):
-
-<p align="center">
-  <img src="assets/overlay_comparison.png" alt="Predicted clipping in anatomical context" width="85%">
-</p>
 
 ## Notes
 
