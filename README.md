@@ -1,6 +1,16 @@
-# # AortaClip
+# AortaClip
 
 GATv2-based prediction of inlet (aortic annulus) and outlet (brachiocephalic artery) clipping planes directly from a segmented aortic surface mesh, for patient-specific TAVI CFD preprocessing. The model predicts each plane's **origin and normal** end-to-end; both are equivariant functions of the mesh geometry, so no plane is hand-built after the fact.
+
+## Authors
+
+Khushi Hiremath¹˒³, Emil Gasimov¹, Fuyu Cheng⁵, Elisa Rauseo³, Yousaf Bhatti²˒⁴, Hsu Hlaing Hnin¹˒³, Vandhanaa Natrajan¹˒⁶, Caroline Roney¹˒⁵, Anthony Mathur²˒⁴, Gregory Slabaugh¹, Laura Bevis¹˒²˒⁵˒†, Xu Chen¹˒²˒†
+
+<sub>¹ Digital Environment Research Institute, Queen Mary University of London, UK · ² William Harvey Research Institute, QMUL · ³ School of Physical & Chemical Sciences, QMUL · ⁴ Barts Heart Centre, QMUL · ⁵ School of Engineering & Materials Science, QMUL · ⁶ School of Electronic Engineering & Computer Science, QMUL · † Joint senior authors</sub>
+
+<p align="center">
+  <img src="assets/pipeline_overview.png" alt="AortaClip pipeline overview" width="85%">
+</p>
 
 ## Pipeline
 
@@ -98,6 +108,7 @@ Corrupt annotations are dropped automatically: a patient whose landmark sits > `
 | Batch size | 4 |
 | Heatmap sigma | 10 mm |
 
+
 ## Notes
 
 - The LOOCV summary is the stable accuracy estimate; the 5-patient test error (`train_final.py`) is unbiased but noisy (n=5).
@@ -105,4 +116,4 @@ Corrupt annotations are dropped automatically: a patient whose landmark sits > `
 
 ## Acknowledgements
 
-Trained on the Apocrita HPC cluster, Queen Mary University of London.on.
+Trained on the Apocrita HPC cluster, Queen Mary University of London.
